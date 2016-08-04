@@ -1,0 +1,330 @@
+/*
+ * Imakefile
+ *
+ * Imakefile template for a standard PSD Library.
+ * 
+ * This file creates the Makefile for this PSD library directory
+ * on an imboot and provides the necessary support to generate the 
+ * (host and tgt) hardware and simulation libraries to be used in 
+ * building a PSD.
+ * 
+ * 
+ * Author:  Roshy J. Francis, Daniel L. Premetz 
+ * Date  :  24/May/2002
+ * 
+ */
+
+
+/*
+ * The toolset to be used in the make. For a PSD or a PSD library
+ * this is always specified as EPIC for this directory. For a library
+ * nothing is built in the root psd library directory, the build takes
+ * place in the host and tgt subdirectories which has appropriate 
+ * toolset defined. 
+ */
+
+TOOLSET     = EPIC
+
+/* 
+ * The make phase where this directory is getting built in product builds;
+ * one of includes, libraries or programs.  Since the PSD libraries are built 
+ * in the "libraries" phase this parameter must be set to libraries for 
+ * a PSD library directory. 
+ */
+
+MAKE_TARGET = libraries
+
+
+/*
+ * The C source files used in building the library linked with the host PSD
+ * executables; In most cases, only one definition is required since the
+ * same  set of files will be used in building the host hardware and host sim
+ * libraries. Note that the final build rule supports specifying alternate
+ * sets of sources for host hw and host sim libraries.
+ */
+
+SRCS_HOST = \
+adi.c \
+amoeba.c \
+anneal.c \
+avevar.c \
+badluk.c \
+balanc.c \
+bcucof.c \
+bcuint.c \
+bessi.c \
+bessi0.c \
+bessi1.c \
+bessj.c \
+bessj0.c \
+bessj1.c \
+bessk.c \
+bessk0.c \
+bessk1.c \
+bessy.c \
+bessy0.c \
+bessy1.c \
+beta.c \
+betacf.c \
+betai.c \
+bico.c \
+bksub.c \
+bnldev.c \
+brent.c \
+bsstep.c \
+caldat.c \
+cel.c \
+chder.c \
+chebev.c \
+chebft.c \
+chebpc.c \
+chint.c \
+chsone.c \
+chstwo.c \
+cntab1.c \
+cntab2.c \
+complex.c \
+complex.h \
+convlv.c \
+correl.c \
+cosft.c \
+covsrt.c \
+crank.c \
+dbrent.c \
+ddpoly.c \
+des.c \
+desks.c \
+df1dim.c \
+dfpmin.c \
+difeq.c \
+dlinmin.c \
+eclass.c \
+eclazz.c \
+eigsrt.c \
+el2.c \
+elmhes.c \
+erf.c \
+erfc.c \
+erfcc.c \
+eulsum.c \
+evlmem.c \
+expdev.c \
+f1dim.c \
+factln.c \
+factrl.c \
+fgauss.c \
+fit.c \
+fixrts.c \
+fleg.c \
+flmoon.c \
+four1.c \
+fourn.c \
+fpoly.c \
+frprmn.c \
+ftest.c \
+gamdev.c \
+gammln.c \
+gammp.c \
+gammq.c \
+gasdev.c \
+gauleg.c \
+gaussj.c \
+gcf.c \
+golden.c \
+gser.c \
+hqr.c \
+hunt.c \
+indexx.c \
+irbit1.c \
+irbit2.c \
+jacobi.c \
+julday.c \
+kendl1.c \
+kendl2.c \
+ksone.c \
+kstwo.c \
+laguer.c \
+lfit.c \
+linmin.c \
+locate.c \
+lubksb.c \
+ludcmp.c \
+mdian1.c \
+mdian2.c \
+medfit.c \
+memcof.c \
+midexp.c \
+midinf.c \
+midpnt.c \
+midsql.c \
+midsqu.c \
+mmid.c \
+mnbrak.c \
+mnewt.c \
+moment.c \
+mprove.c \
+mrqcof.c \
+mrqmin.c \
+nrutil.c \
+odeint.c \
+pcshft.c \
+pearsn.c \
+piksr2.c \
+piksrt.c \
+pinvs.c \
+plgndr.c \
+poidev.c \
+polcoe.c \
+polcof.c \
+poldiv.c \
+polin2.c \
+polint.c \
+powell.c \
+predic.c \
+probks.c \
+pzextr.c \
+qcksrt.c \
+qgaus.c \
+qromb.c \
+qromo.c \
+qroot.c \
+qsimp.c \
+qtrap.c \
+quad3d.c \
+ran0.c \
+ran1.c \
+ran2.c \
+ran3.c \
+ran4.c \
+rank.c \
+ratint.c \
+realft.c \
+red.c \
+rk4.c \
+rkdumb.c \
+rkqc.c \
+rofunc.c \
+rtbis.c \
+rtflsp.c \
+rtnewt.c \
+rtsafe.c \
+rtsec.c \
+rzextr.c \
+scrsho.c \
+sfroid.c \
+shell.c \
+shoot.c \
+shootf.c \
+simp1.c \
+simp2.c \
+simp3.c \
+simplx.c \
+sinft.c \
+smooft.c \
+sncndn.c \
+solvde.c \
+sor.c \
+sort.c \
+sort2.c \
+sort3.c \
+sparse.c \
+spctrm.c \
+spear.c \
+splie2.c \
+splin2.c \
+spline.c \
+splint.c \
+svbksb.c \
+svdcmp.c \
+svdfit.c \
+svdvar.c \
+toeplz.c \
+tptest.c \
+tqli.c \
+trapzd.c \
+tred2.c \
+tridag.c \
+ttest.c \
+tutest.c \
+twofft.c \
+vander.c \
+zbrac.c \
+zbrak.c \
+zbrent.c \
+zroots.c 
+/*
+ * The C source files used in building the library linked with the tgt PSD
+ * executables; In most cases, only one definition is required since the
+ * same  set of files will be used in building the tgt hardware and tgt sim
+ * libraries. Note that the final build rule supports specifying alternate
+ * sets of sources for tgt hw and tgt sim libraries.
+ */
+
+SRCS_TGT = \
+
+            
+
+/*
+ * Additional compiler flags to be passed to the C compiler when compiling a
+ * C source to be included in the host hardware library.
+ * eg: -DMY_FLAG to define MYFLAG conditional compilation directive.
+ * Note that hardware and simulation compilation flags are specified 
+ * independently.
+ */
+
+
+ADD_CFLAGS_HH = -Wall
+
+/*
+ * Additional compiler flags to be passed to the C compiler when compiling a
+ * C source to be included in the host SIM library.
+ * eg: -DMY_FLAG to define MYFLAG conditional compilation directive.
+ * Note that hardware and simulation compilation flags are specified 
+ * independently.
+ */
+
+ADD_CFLAGS_HS = -Wall
+
+/*
+ * Additional compiler flags to be passed to the C compiler when compiling a
+ * C source to be included in the tgt SIM library.
+ * eg: -DMY_FLAG to define MYFLAG conditional compilation directive.
+ * Note that hardware and simulation compilation flags are specified 
+ * independently.
+ */
+
+ADD_CFLAGS_TS = -Wall
+
+/*
+ * Additional compiler flags to be passed to the C compiler when compiling a
+ * C source to be included in the tgt hw library.
+ * eg: -DMY_FLAG to define MYFLAG conditional compilation directive.
+ * Note that hardware and simulation compilation flags are specified 
+ * independently.
+ */
+
+
+ADD_CFLAGS_TH = -Wall
+
+
+            
+/*
+ * Specify compilation Modes: PsdParameters rule define standard parameter
+ * definitions used during a PSD and PSD library builds. 
+ * These parameters cannot be changed via Imakefile, but can be extended 
+ * with more flags
+ */
+
+PsdParameters()
+            
+            
+/*
+ * Specify compilation Modes: BuildingPsdLibrary() rule establishes 
+ * standard PSD library make dependencies and compilation mechanisms.
+ */
+
+BuildingPsdLibrary(psdsupport,SRCS_HOST,SRCS_HOST,SRCS_TGT,SRCS_TGT)
+
+/***********************************************************************/
+/*                              END                                    */ 
+/***********************************************************************/
