@@ -1,4 +1,4 @@
-function [pos,mask] = NWcreateROITemplate(im,nrois,savename)
+function [pos,mask] = NWcreateROITemplate(im,nrois,savename,roinames)
 %
 % im is the reference image - must be the same size as the acquired image
 % nrois is the number of rois or a cell array of initial positions
@@ -9,7 +9,6 @@ if nargin<3,
     savename = [];
 %     savename = 'ROITemplate'; 
 end
-
 if isnumeric(nrois)
     opt = 0;
 elseif iscell(nrois)
@@ -19,6 +18,9 @@ elseif iscell(nrois)
 else
     error('incorrect number of rois')
 end
+if nargin<4 || ~isequal(length(roinames),nrois)
+    roinames = [];
+end
 
 hfig = figure;
 ax = axes(hfig);
@@ -27,7 +29,11 @@ colormap bone
 
 mask = zeros([size(im) nrois]);
 for ii=1:nrois
-    hbox = msgbox(['Choose ROI ' num2str(ii)]);
+    if isempty(roinames)
+        hbox = msgbox(['Choose ROI ' num2str(ii)]);
+    else
+        hbox = msgbox(['Choose ' roinames{ii}]);
+    end
     uiwait(hbox)
     switch opt
         case 0

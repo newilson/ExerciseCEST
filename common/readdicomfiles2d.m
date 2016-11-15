@@ -40,7 +40,7 @@ elseif ( strfind(fullfilen,'.IMA') )
 else
     txtfilen = [pathname filesep 'PVTHDR.txt'];
 end
-txtfilen
+% txtfilen
 
 if( fopen(txtfilen,'r') == -1 )
     ftxt = fopen(txtfilen,'w');
@@ -59,7 +59,7 @@ for i = 1:64
     end
 end
 
-fprintf('Reading headers from %s ...\n',txtfilen);
+% fprintf('Reading headers from %s ...\n',txtfilen);
 
 fid2 = fopen(txtfilen,'r');
 str1 = fgetl(fid2);
@@ -84,6 +84,14 @@ while( ~isempty(str1) && isempty( strfind(str1,'ASCCONV END') ) )
     end
     
     tnamestr = 'sProtConsistencyInfo.tBaselineString';
+    if (~isempty(strfind(str1,tnamestr)))
+        tindex1 = strfind(str1,'""')+2;
+        tindex2 = length(str1)-2;
+        tname = str1(tindex1:tindex2);
+        hdr.swversion = tname;
+    end
+    
+    tnamestr = 'sProtConsistencyInfo.tMeasuredBaselineString'; % NW added 11/07/16
     if (~isempty(strfind(str1,tnamestr)))
         tindex1 = strfind(str1,'""')+2;
         tindex2 = length(str1)-2;
@@ -344,6 +352,6 @@ for irep = 1:nfiles % NW
 end % for irep
 close(hwaitbar);
 
-disp('readdicomimage2d done');
+% disp('readdicomimage2d done');
 end
 

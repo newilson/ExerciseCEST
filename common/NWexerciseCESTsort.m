@@ -13,11 +13,15 @@ else
     scandirs = dir;
 end
 
+cestprecount = 0;
+cestpostcount = 0;
 out = []; 
 for zz = 1:2 % loop through 2 times
     for ii=1:length(scandirs)
         if scandirs(ii).isdir
             lowname = lower(scandirs(ii).name);
+            splitname1 = strsplit(lowname,'_');
+            lowname1 = strjoin(splitname1(3:end),'_'); % ignores sequence name part
             if strfind(lowname,'b0') % B0
                 if strfind(lowname,'post')
                     splitname = strsplit(lowname,'_');
@@ -32,7 +36,7 @@ for zz = 1:2 % loop through 2 times
                         else
                             B0post1 = ind;
                         end
-                    elseif isequal(B0post1+1,B0post2);
+                    elseif isequal(B0post1+1,B0post2)
                         if isequal(ind,B0post1)
                             out.B0magpost = scandirs(ii).name;
                         elseif isequal(ind,B0post2)
@@ -67,7 +71,7 @@ for zz = 1:2 % loop through 2 times
                         else
                             B0pre1 = ind;
                         end
-                    elseif isequal(B0pre1+1,B0pre2);
+                    elseif isequal(B0pre1+1,B0pre2)
                         if isequal(ind,B0pre1)
                             out.B0magpre = scandirs(ii).name;
                         elseif isequal(ind,B0pre2)
@@ -149,7 +153,7 @@ for zz = 1:2 % loop through 2 times
                         end
                     end
                 end
-            elseif strfind(lowname,'b1') % B1
+            elseif strfind(lowname1,'b1') % B1
                 if strfind(lowname,'post')
                     out.B1post = scandirs(ii).name;
                 elseif strfind(lowname,'_pre')
@@ -165,23 +169,27 @@ for zz = 1:2 % loop through 2 times
                         end
                     end
                 end
-            elseif strfind(lowname,'cest') % CEST images
+            elseif strfind(lowname1,'cest') % CEST images
                 if strfind(lowname,'post')
                     out.CESTpost = scandirs(ii).name;
+                    cestpostcount = cestpostcount+1/2;
                 elseif strfind(lowname,'_pre')
                     out.CESTpre = scandirs(ii).name;
+                    cestprecount = cestprecount+1/2;
                 else
                     if zz==2
                         if ~isfield(out,'CESTpost') && isfield(out,'CESTpre')
                             out.CESTpost = scandirs(ii).name;
+                            cestpostcount = cestpostcount+1;
                         elseif ~isfield(out,'CESTpre') && isfield(out,'CESTpost')
                             out.CESTpre = scandirs(ii).name;
+                            cestprecount = cestprecount+1;
                         else
                             out.unknown.CEST = scandirs(ii).name;
                         end
                     end
                 end
-            elseif strfind(lowname,'wassr') % WASSR images
+            elseif strfind(lowname1,'wassr') % WASSR images
                 if strfind(lowname,'post')
                     out.WASSRpost = scandirs(ii).name;
                 elseif strfind(lowname,'_pre')
@@ -197,7 +205,7 @@ for zz = 1:2 % loop through 2 times
                         end
                     end
                 end
-            elseif ~(isempty(strfind(lowname,'none')) && isempty(strfind(lowname,'ref'))) % Reference scan
+            elseif ~(isempty(strfind(lowname1,'none')) && isempty(strfind(lowname1,'ref'))) % Reference scan
                 if strfind(lowname,'post')
                     out.Refpost = scandirs(ii).name;
                 elseif strfind(lowname,'_pre')
@@ -229,3 +237,10 @@ if ~isfield(out,'B1pre'), out.B1pre = ''; end
 if ~isfield(out,'Refpost'), out.Refpost = []; end
 if ~isfield(out,'B0magpost') || ~isfield(out,'B0phpost'), out.B0magpost = ''; out.B0phpost = ''; end
 if ~isfield(out,'B0magpre') || ~isfield(out,'B0phpre'), out.B0magpre = ''; out.B0phpre = ''; end
+
+if cestprecount>3 || cestpostcount>3
+    out.CESTprepaths = uigetdir2(in,'Choose ALL pre exercise CEST directories');
+    [~, out.CESTpre] = fileparts(out.CESTprepaths{1});
+    out.CESTpostpaths = uigetdir2(in,'Choose ALL post exercise CEST directories');
+    [~, out.CESTpost] = fileparts(out.CESTpostpaths{1});
+end

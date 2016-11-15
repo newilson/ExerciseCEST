@@ -3,9 +3,9 @@ function B1map = calc_B1map(im1, im2, mask, alpha)
 H = size(mask,1);
 W = size(mask,2);
 
-size(mask)
-size(im1)
-size(im2)
+% size(mask)
+% size(im1)
+% size(im2)
 
 H1 = size(im1,1);
 W1 = size(im1,2);

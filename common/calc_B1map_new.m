@@ -1,6 +1,6 @@
 function B1map = calc_B1map_new(image1, image2, image3, mask, alpha)
 
-disp ('calc_b1map3d_new begin ....');
+% disp ('calc_b1map3d_new begin ....');
 
 [H,W] = size(image1);
 mask1 = zeros(H,W);
@@ -45,7 +45,7 @@ B1map(B1map>1.8) = 0.0;
 
 clear r r1 r2 r3 mask1 im
 
-disp ('calc_b1map_new end ....');
+% disp ('calc_b1map_new end ....');
 return
 end
 

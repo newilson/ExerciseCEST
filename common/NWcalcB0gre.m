@@ -5,7 +5,7 @@ if nargin<4, mask_flag = false; end
 if nargin<5, opt = 3; end
 
 [nx,ny,ne,nt] = size(phases);
-if ne~=3, error('incorrect sizes of phases'), end
+% if ne~=3, error('incorrect sizes of phases'), end
 if ~isempty(mag) && size(mag)~=size(phases), error('mag and phases must be same size'), end
 
 if length(hdr)>1

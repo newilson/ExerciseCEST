@@ -1,7 +1,9 @@
-function f = NWmontim(im1,im2,ncols,cmap,showcbar,fig_title,cax)
+function f = NWmontim(im1,im2,ncols,cmap,showcbar,fig_title,cax,fpath)
+
+if nargin<8 || isempty(fpath), fpath = pwd; end
 
 npre = size(im1,3);
-imrows = size(im1,1);
+imrows = size(im1,1); imcols  = size(im1,2);
 
 im = cat(3,im1,im2);
 im = NWmontage(im,[nan ncols]);
@@ -47,8 +49,8 @@ if nargin>4 && showcbar
 end
 
 if npre<ncols % should always be true, ensures that all baseline scans in 1st row
-    line(ax,[1 npre*imrows],[imrows imrows],'color',[.95 .95 .95],'linewidth',1.5)
-    line(ax,[npre*imrows npre*imrows],[1 imrows],'color',[.95 .95 .95],'linewidth',1.5)
+    line(ax,[1 npre*imcols],[imrows imrows],'color',[.95 .95 .95],'linewidth',1.5)
+    line(ax,[npre*imcols npre*imcols],[1 imrows],'color',[.95 .95 .95],'linewidth',1.5)
 end
 
 if ndims(im)>2
@@ -127,17 +129,6 @@ set(f,'visible','on','toolbar','figure')
     end
 
     function printax(source,callbackdata)
-%         cax = caxis(ax);
-%         f2 = figure('visible','off');
-%         ax2 = axes('Parent',f2);
-%         copyobj(allchild(ax),ax2);
-%         
-%         set(ax2,'Ydir','reverse')
-%         set(ax2,'LooseInset',get(ax2,'TightInset'))
-%         axis(ax2,'tight'), axis(ax2,'equal'), axis(ax2,'tight')
-%         axis(ax2,'off')
-%         colormap(ax2,cmap)
-%         caxis(ax2,cax);
         prompt = {'FullName (no extension)','Format (vector: eps,pdf / bitmap: tiff,png,bmp,jpeg)','DPI','Renderer (painters or opengl)'};
         defvals = {'myFigure','eps','300','painters'};
         nlines = 1;
@@ -151,7 +142,7 @@ set(f,'visible','on','toolbar','figure')
             end
             res = ['-r' vals{3}];
             rend = ['-' vals{4}]; 
-            print(f,fname,form,res,rend,'-noui')
+            print(f,fullfile(fpath,fname),form,res,rend,'-noui')
         end
 %         close(f2);
     end

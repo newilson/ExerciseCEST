@@ -58,7 +58,7 @@ end
 h = zeros(1,nIm_over);
 for ii=1:nIm_over
     if size(fullcol,4)>1
-        h(ii) = imagesc(ax,squeeze(fullcol(:,:,:,mod(ii,size(fullcol,4)))));
+        h(ii) = imagesc(ax,squeeze(fullcol(:,:,:,mod(ii-1,size(fullcol,4))+1)));
     else
         h(ii) = imagesc(ax,squeeze(fullcol(:,:,:)));
     end
