@@ -1,0 +1,6 @@
+myfun,"@(a,t) (t>0).*(a(1)*exp(-t/a(2))+a(3)) + (t<=0).*(a(4)*t+a(3))"
+par0,"[8,150,6,0]"
+parnames,"{'Increase','Recovery','Baseline','BiasSlope'}"
+colors,"[0 0.447 0.741; 0.850 0.325 0.098; 0.929 0.694 0.125; 0.494 0.184 0.556]"
+rois,"{'LG','MG','Sol','TA'}"
+maindir,"D:"
